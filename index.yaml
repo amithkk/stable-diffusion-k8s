@@ -3,6 +3,17 @@ entries:
   stable-diffusion:
   - apiVersion: v2
     appVersion: 1.4.0
+    created: "2022-09-01T13:34:02.407651553Z"
+    description: Packaged Stable Diffusion with a companion UI and automatic model
+      retrieval - http://github.com/amithkk/stable-diffusion-k8s
+    digest: 4708eae191ee6077b7c5ff0236ad9c9dbb90d0206e9b41e989b02db9aec4b896
+    name: stable-diffusion
+    type: application
+    urls:
+    - https://github.com/amithkk/stable-diffusion-k8s/releases/download/stable-diffusion-1.0.5/stable-diffusion-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v2
+    appVersion: 1.4.0
     created: "2022-09-01T12:42:03.719504961Z"
     description: Packaged Stable Diffusion with a companion UI and automatic model
       retrieval - http://github.com/amithkk/stable-diffusion-k8s
@@ -12,4 +23,4 @@ entries:
     urls:
     - https://github.com/amithkk/stable-diffusion-k8s/releases/download/stable-diffusion-1.0.4/stable-diffusion-1.0.4.tgz
     version: 1.0.4
-generated: "2022-09-01T12:42:03.719510161Z"
+generated: "2022-09-01T13:34:02.407659553Z"
