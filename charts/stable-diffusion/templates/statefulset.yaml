@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "stable-diffusion.fullname" . }}
+  labels:
+    {{- include "stable-diffusion.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "stable-diffusion.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "stable-diffusion.selectorLabels" . | nindent 6 }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ include "stable-diffusion.fullname" . }}-model-store
+      spec:
+        accessModes:
+          - {{ .Values.persistence.accessMode }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size }}
+        {{- with .Values.persistence.storageClass }}
+        storageClassName: {{ . | quote }}
+        {{- end }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "stable-diffusion.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "stable-diffusion.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: ensure-stable-models
+          image: busybox:1.35
+          command: ["/bin/sh"]
+          args:
+            - -c
+            - >-
+                wget -nc {{ .Values.models.sd14 }} -O /models/model.ckpt;
+                wget -nc {{ .Values.models.gfpGan13 }} -P /models;
+                wget -nc {{ .Values.models.realEsrGanx4p10 }} -P /models;
+                wget -nc {{ .Values.models.realEsrGanx4Animep02 }} -P /models
+          volumeMounts:
+            - mountPath: /models
+              name: {{ include "stable-diffusion.fullname" . }}-model-store
+      containers:
+        - name: {{ .Chart.Name }}-stable-diffusion
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "stable-diffusion.fullname" . }}-config
+          ports:
+            - name: http
+              containerPort: 7860
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /models
+              name: {{ include "stable-diffusion.fullname" . }}-model-store
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
