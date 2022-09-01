@@ -2,9 +2,9 @@
 
 Run Stable Diffusion with companion models on a GPU-enabled Kubernetes Cluster - complete with a [WebUI](https://github.com/hlky/stable-diffusion-webui) and automatic model fetching for a 2 step install that takes less than 2 minutes (excluding download times).
 
-If you are on a restricted internet connection and want to save bandwidth, you can also [manually build the dockerfile](./docker/stable-diffusion-serving.Dockerfile) and push it to a local container registry.
-
 Uses the `nvidia/cuda` image as a base.
+
+![Screenshot of the Stable Diffusion UI](img/screenshot.png)
 
 ### Features
 
@@ -23,11 +23,12 @@ Uses the `nvidia/cuda` image as a base.
 ## Setup
 
 -   Add the helm repo with `helm repo add amithkk-sd https://amithkk.github.io/stable-diffusion-k8s`
+-   Fetch latest charts with `helm repo update`
 -   (Optional) Create your own [`values.yaml`](./charts/stable-diffusion/values.yaml) with customized settings
     -   Some things that you might want to change could include the `nodeAffinity`, `cliArgs` (see below) and `ingress` settings (that will allow you to access this externally without needing to `kubectl port-forward`)
--   Install with `helm install amithkk-sd/stable-diffusion -f <your-values.yaml>`
+-   Install with `helm install --generate-name amithkk-sd/stable-diffusion -f <your-values.yaml>`
 
-Wait for the containers to come up and follow the instructions returned by Helm to connect. This may take a while as it has to download a ~10GiB docker image and ~5Gib of models
+Wait for the containers to come up and follow the instructions returned by Helm to connect. This may take a while as it has to download a ~5GiB docker image and ~5GiB of models
 
 ## Config
 
