@@ -3,7 +3,6 @@ FROM nvidia/cuda:11.7.1-runtime-ubuntu20.04
 
 ENV PATH="/root/miniconda3/bin:${PATH}"
 ARG PATH="/root/miniconda3/bin:${PATH}"
-RUN 
 
 RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && \
     apt-get install -y wget fonts-dejavu-core rsync git libglib2.0-0 && \
