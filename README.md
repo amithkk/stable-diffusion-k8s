@@ -22,11 +22,11 @@ Uses the `nvidia/cuda` image as a base.
 
 ## Setup
 
--   Add the helm repo with `helm repo add amithkk-sd https://amithkk.github.io/stable-diffusion-k8s`
+-   Add the helm repo with `helm repo add matthew-graves-sd https://matthew-graves.github.io/stable-diffusion-k8s`
 -   Fetch latest charts with `helm repo update`
 -   (Optional) Create your own [`values.yaml`](./charts/stable-diffusion/values.yaml) with customized settings
     -   Some things that you might want to change could include the `nodeAffinity`, `cliArgs` (see below) and `ingress` settings (that will allow you to access this externally without needing to `kubectl port-forward`)
--   Install with `helm install --generate-name amithkk-sd/stable-diffusion -f <your-values.yaml>`
+-   Install with `helm install --generate-name matthew-graves-sd/stable-diffusion -f <your-values.yaml>`
 
 Wait for the containers to come up and follow the instructions returned by Helm to connect. This may take a while as it has to download a ~5GiB docker image and ~5GiB of models
 
