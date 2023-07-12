@@ -45,10 +45,10 @@ spec:
           args:
             - -c
             - >-
-                wget -nc {{ .Values.models.sd14 }} -O /models/model.ckpt;
-                wget -nc {{ .Values.models.gfpGan13 }} -P /models;
-                wget -nc {{ .Values.models.realEsrGanx4p10 }} -P /models;
-                wget -nc {{ .Values.models.realEsrGanx4Animep02 }} -P /models
+                if test -n "{{ .Values.models.sd14 }}" ; then wget -nc {{ .Values.models.sd14 }} -O /models/model.ckpt; fi;
+                if test -n "{{ .Values.models.gfpGan13 }}" ; then wget -nc {{ .Values.models.gfpGan13 }} -P /models; fi;
+                if test -n "{{ .Values.models.realEsrGanx4p10 }}" ; then wget -nc {{ .Values.models.realEsrGanx4p10 }} -P /models; fi;
+                if test -n "{{ .Values.models.realEsrGanx4Animep02 }}" ; then wget -nc {{ .Values.models.realEsrGanx4Animep02 }} -P /models; fi
           volumeMounts:
             - mountPath: /models
               name: {{ include "stable-diffusion.fullname" . }}-model-store
