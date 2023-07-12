@@ -41,6 +41,9 @@ spec:
       initContainers:
         - name: ensure-stable-models
           image: busybox:1.35
+          envFrom:
+            - configMapRef:
+                name: {{ include "stable-diffusion.fullname" . }}-config
           command: ["/bin/sh"]
           args:
             - -c

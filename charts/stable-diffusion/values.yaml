@@ -101,3 +101,8 @@ nodeSelector:
 tolerations: []
 
 affinity: {}
+
+# proxy:
+#   http_proxy: "http://proxy.example.com:8080"
+#   https_proxy: "http://proxy.example.com:8080"
+#   NO_PROXY: "127.0.0.1,local.example.com"
