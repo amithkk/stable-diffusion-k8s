@@ -4,4 +4,9 @@ metadata:
   name: {{ include "stable-diffusion.fullname" . }}-config
 data:
   CLI_FLAGS: {{ .Values.cliFlags | quote }}
+  {{- if .Values.proxy }}
+  http_proxy: {{ .Values.proxy.http_proxy | quote }}
+  https_proxy: {{ .Values.proxy.https_proxy | quote }}
+  NO_PROXY: {{ .Values.proxy.NO_PROXY | quote }}
+  {{- end }}
 
